@@ -1,7 +1,3 @@
-#ifdef _GLIBCXX_DEBUG
-# include <debug/string>
-# include <debug/vector>
-#endif
 #include "Response.hpp"
 #include "Config.hpp"
 #include "HTTPMessageParser.hpp"
@@ -19,6 +15,25 @@
 /*******************************************************/
 /**********************Util Fanctions*******************/
 
+std::string Response::ft_ito00(int n)
+{
+  std::string ret;
+  if (n <= 9)
+  {
+    ret += '0';
+    ret += '0' + n;
+    return ret;
+  }
+  while (n > 0)
+  {
+    char c[2];
+    c[0] = '0' + n % 10;
+    c[1] = '\0';
+    ret.insert(0, std::string(c));
+    n /= 10;
+  }
+  return (ret);
+}
 
 int ft_pow(int n, int times)
 {
@@ -1324,10 +1339,10 @@ void Response::setDate()
 	gmt = gmtime(&timer);
 	responseMessege.append("Date: ");
 	responseMessege.append(GetDate()[gmt->tm_wday] + ", ");
-	responseMessege.append(ft_itos(gmt->tm_mday) + " ");
+	responseMessege.append(ft_ito00(gmt->tm_mday) + " ");
 	responseMessege.append(GetMonth()[gmt->tm_mon] + " ");
 	responseMessege.append(ft_itos(gmt->tm_year + 1900) + " ");
-	responseMessege.append(ft_itos(gmt->tm_hour) + ":" + ft_itos(gmt->tm_min) + ":" + ft_itos(gmt->tm_sec) + " ");
+	responseMessege.append(ft_ito00(gmt->tm_hour) + ":" + ft_ito00(gmt->tm_min) + ":" + ft_ito00(gmt->tm_sec) + " ");
 	responseMessege.append("GMT\r\n");
 }
 
